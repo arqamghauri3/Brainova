@@ -1,0 +1,23 @@
+# Virtual environments
+venv/
+Pipfile.lock
+Pipfile
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Django migrations
+*/migrations/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Nginx, Docker & DB files
+nginx.conf
+db.sqlite3
+/media/
