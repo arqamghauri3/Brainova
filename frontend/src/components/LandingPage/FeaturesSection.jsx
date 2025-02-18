@@ -1,26 +1,63 @@
 import React from "react";
 import { FaBrain, FaChartLine, FaCloudUploadAlt } from "react-icons/fa";
-
-const features = [
-  { icon: <FaBrain className="text-blue-600 text-4xl" />, title: "EEG Analysis", desc: "AI-driven analysis of EEG signals." },
-  { icon: <FaChartLine className="text-blue-600 text-4xl" />, title: "Real-Time Results", desc: "Instant predictions and analytics." },
-  { icon: <FaCloudUploadAlt className="text-blue-600 text-4xl" />, title: "Secure Data", desc: "HIPAA-compliant and cloud-secure storage." },
-];
+import {
+  Brain,
+  Activity,
+  BarChartIcon as ChartBar,
+  ArrowRight,
+  CheckCircle2,
+  Github,
+  Twitter,
+  Linkedin,
+} from "lucide-react";
 
 const FeaturesSection = () => {
   return (
-    <div id="features" className="p-12 bg-gray-100 text-center">
-      <h2 className="text-3xl font-bold text-gray-800">Key Features</h2>
-      <div className="flex justify-center gap-8 mt-8">
-        {features.map((feature, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-md w-64">
-            {feature.icon}
-            <h3 className="text-lg font-semibold mt-4">{feature.title}</h3>
-            <p className="text-gray-600 mt-2">{feature.desc}</p>
+    <section id="technology" className="py-24 bg-[hsl(var(--muted) / 0.5)];">
+          <div className="container mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">How It Works</h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Our advanced AI system analyzes EEG patterns to detect early signs of Parkinson's disease with
+                unprecedented accuracy.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  step: "1",
+                  title: "EEG Recording",
+                  description: "High-resolution EEG data is recorded using our specialized equipment",
+                  icon: Activity,
+                },
+                {
+                  step: "2",
+                  title: "AI Analysis",
+                  description: "Our deep learning model analyzes brain wave patterns in real-time",
+                  icon: Brain,
+                },
+                {
+                  step: "3",
+                  title: "Results & Insights",
+                  description: "Receive detailed analysis and early detection indicators",
+                  icon: ChartBar,
+                },
+              ].map((item, index) => (
+                <div key={index} className="relative p-6 bg-background rounded-lg border">
+                  <div className="absolute -top-4 left-4 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                    {item.step}
+                  </div>
+                  <div className="mt-4">
+                    <item.icon className="h-12 w-12 text-primary mb-4" />
+                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
+        </section>
   );
 };
 
