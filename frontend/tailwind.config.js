@@ -13,10 +13,32 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-        background: 'hsl(224,71%,4%)',
-        foreground: 'hsl(213,31%,91%)',
-        border: 'hsl(216,34%,17%)',
-      }
+  			background: 'hsl(224,71%,4%)',
+  			foreground: 'hsl(213,31%,91%)',
+  			border: 'hsl(216,34%,17%)'
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

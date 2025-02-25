@@ -10,7 +10,7 @@ import {
   Twitter,
   Linkedin,
 } from "lucide-react";
-
+import LandingPageImg from '../../assets/LandingPageImg.jpeg'
 const HeroSection = () => {
   return (
     <section className="relative overflow-hidden">
@@ -37,7 +37,7 @@ const HeroSection = () => {
         <div className="relative w-full max-w-xl lg:max-w-2xl aspect-square">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/0 rounded-full blur-3xl" />
           <img
-            src="https://kzmic6yxvd0rgangkymw.lite.vusercontent.net/placeholder.svg"
+            src={LandingPageImg}
             alt="EEG Brain Mapping"
             width={600}
             height={600}

@@ -1,14 +1,18 @@
-import React from "react";
+import { DashboardContext } from "@/contexts/DashboardContext";
+import { Menu } from "lucide-react";
+import React, { useContext } from "react";
+import { Button } from "@/components/ui/button";
 
-const Navbar = () => {
+function Navbar() {
+  const { setIsSidebarOpen } = useContext(DashboardContext);
+
   return (
-    <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold text-gray-800">Brainova Dashboard</h1>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-        Logout
-      </button>
-    </nav>
+    <div className="md:hidden border-b w-full h-16 flex items-center px-5 ">
+      <Button onClick={() => setIsSidebarOpen(true)}>
+        <Menu className="w-6 h-6" />
+      </Button>
+    </div>
   );
-};
+}
 
 export default Navbar;

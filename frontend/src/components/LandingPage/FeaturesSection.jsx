@@ -13,7 +13,7 @@ import {
 
 const FeaturesSection = () => {
   return (
-    <section id="technology" className="py-24 bg-[hsl(var(--muted) / 0.5)];">
+    <section id="technology" className="bg-[hsl(var(--muted) / 0.5)];">
           <div className="container mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">How It Works</h2>

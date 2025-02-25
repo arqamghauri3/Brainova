@@ -13,7 +13,7 @@ const AboutSection = () => {
   return (
     <section id="benefits" className="py-24">
           <div className="container mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="flex items-center  justify-center">
               <div className="space-y-6">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
                   Leading the Future of
@@ -47,16 +47,6 @@ const AboutSection = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className="relative aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/0 rounded-2xl blur-3xl" />
-                <img
-                  src="https://kzmic6yxvd0rgangkymw.lite.vusercontent.net/placeholder.svg"
-                  alt="Brain Wave Analysis"
-                  width={600}
-                  height={600}
-                  className="relative z-10 rounded-2xl"
-                />
               </div>
             </div>
           </div>
