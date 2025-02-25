@@ -15,7 +15,6 @@ export default function ContactPageComponents() {
   return (
     <div className="px-4 md:px-0 lg:px-0 xl:px-0">
       <main className="flex-1 container mx-auto">
-        {/* Hero Section */}
         <section className="relative">
           <div className="container py-24 space-y-8">
             <div className="mx-auto max-w-[800px] space-y-4 text-center">
@@ -29,7 +28,6 @@ export default function ContactPageComponents() {
           </div>
         </section>
 
-        {/* Contact Options */}
         <section className="border-t">
           <div className="container py-12 md:py-24">
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -38,8 +36,8 @@ export default function ContactPageComponents() {
                   title: "General Inquiries",
                   description: "For general questions and information",
                   icon: MessageSquare,
-                  contact: "info@neurodetect.com",
-                  link: "mailto:info@neurodetect.com",
+                  contact: "info@brainova.com",
+                  link: "mailto:info@brainova.com",
                 },
                 {
                   title: "Technical Support",
@@ -52,8 +50,8 @@ export default function ContactPageComponents() {
                   title: "Research Collaboration",
                   description: "Partner with our research team",
                   icon: Mail,
-                  contact: "research@neurodetect.com",
-                  link: "mailto:research@neurodetect.com",
+                  contact: "research@brainova.com",
+                  link: "mailto:research@brainova.com",
                 },
               ].map((item, index) => (
                 <Card key={index}>
@@ -79,7 +77,6 @@ export default function ContactPageComponents() {
           </div>
         </section>
 
-        {/* Contact Form Section */}
         <section className="border-t bg-muted/50">
           <div className="container py-12 md:py-24">
             <div className="grid">
@@ -99,48 +96,6 @@ export default function ContactPageComponents() {
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="border-t">
-          <div className="container py-12 md:py-24">
-            <div className="mx-auto max-w-[800px] space-y-4 text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-muted-foreground">
-                Find quick answers to common questions about our services
-              </p>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              {[
-                {
-                  q: "How quickly can I get my test results?",
-                  a: "Test results are typically available within 24-48 hours after your EEG scan is uploaded to our platform.",
-                },
-                {
-                  q: "Is my data secure?",
-                  a: "Yes, we use enterprise-grade encryption and are fully HIPAA compliant to ensure your medical data is secure.",
-                },
-                {
-                  q: "Do you offer technical support?",
-                  a: "Yes, our technical support team is available Monday through Friday, 9 AM to 6 PM PST.",
-                },
-                {
-                  q: "Can I integrate Brainova with my existing systems?",
-                  a: "Yes, we offer API access and integration support for healthcare providers.",
-                },
-              ].map((faq, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{faq.q}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{faq.a}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );

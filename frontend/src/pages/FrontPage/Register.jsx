@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function Signup() {
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col dark:bg-black dark:text-foreground">
       <Navbar />
       <div className="container flex-1 flex items-center justify-center mx-auto ">
         <div className="flex w-full flex-col justify-center space-y-6 mx-auto sm:w-[350px]">

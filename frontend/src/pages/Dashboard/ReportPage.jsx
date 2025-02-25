@@ -36,7 +36,7 @@ export default function ReportPage() {
               status: "Final",
             },
           ].map((report, index) => (
-            <Card key={index} className='bg-black text-white'>
+            <Card key={index} className=' '>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
@@ -51,11 +51,11 @@ export default function ReportPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" className='bg-black text-white'>
+                    <Button variant="outline" size="sm" className=' '>
                       <Eye className="h-4 w-4 mr-2" />
                       View
                     </Button>
-                    <Button variant="outline" size="sm" className='bg-black text-white'>
+                    <Button variant="outline" size="sm" className=' '>
                       <Download className="h-4 w-4 mr-2" />
                       Download
                     </Button>

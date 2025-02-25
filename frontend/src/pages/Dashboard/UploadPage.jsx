@@ -19,7 +19,7 @@ export default function UploadPage() {
               Upload EEG Data
             </h2>
           </div>
-          <Card className='bg-black text-white'>
+          <Card className=''>
             <CardHeader>
               <CardTitle>EEG Data Upload</CardTitle>
               <CardDescription>

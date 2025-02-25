@@ -4,6 +4,17 @@ import { Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const toggleDarkMode = () => {
+    const html = document.documentElement;
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  };
+
   const navbarLinks = [
     { title: "Home", href: "/" },
     { title: "Contact Us", href: "/contact" },
@@ -12,7 +23,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/10 ">
       <div className="container mx-auto flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <Brain className="h-6 w-6 text-primary" />
@@ -23,19 +34,39 @@ const Navbar = () => {
             return (
               <Link
                 to={navbarLink.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary"
+                className="text-sm font-medium hover:text-gray-600 dark:hover:text-white"
               >
                 {navbarLink.title}
               </Link>
             );
           })}
           <div className="flex gap-1">
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-zinc-300 bg-zinc-900 text-zinc-50 shadow hover:bg-zinc-900/90 dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black h-9 px-4 py-2">
+            <Button>
               <Link to="/register">Sign Up</Link>
-            </button>
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:focus-visible:ring-zinc-300 bg-zinc-900 text-zinc-50 shadow hover:bg-zinc-900/90 dark:bg-black dark:text-white dark:hover:bg-white dark:hover:text-black h-9 px-4 py-2">
+            </Button>
+            <Button>
               <Link to="/login">Sign In</Link>
-            </button>
+            </Button>
+          </div>
+          <div>
+            <Button
+              className="h-9 w-9 p-0 rounded-full"
+              onClick={toggleDarkMode}
+              variant="outline"
+            >
+              <span className="sr-only">Toggle Dark Mode</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </Button>
           </div>
         </nav>
       </div>

@@ -87,7 +87,7 @@ function LoginForm() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="bg-white text-black hover:bg-gray-300"
+            className="   "
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
@@ -98,22 +98,22 @@ function LoginForm() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="dark:bg-background bg-white px-2 text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-1">
-        <Button className='bg-white text-black hover:bg-gray-300' disabled={isLoading}>
+        <Button className='   ' disabled={isLoading}>
           Google
         </Button>
-        <Button className='bg-white text-black hover:bg-gray-300' disabled={isLoading}>
+        <Button className='   ' disabled={isLoading}>
           Microsoft
         </Button>
-        <Button className='bg-white text-black hover:bg-gray-300' disabled={isLoading}>
+        <Button className='   ' disabled={isLoading}>
           Apple
         </Button>
-        <Button className='bg-white text-black hover:bg-gray-300' disabled={isLoading}>
+        <Button className='   ' disabled={isLoading}>
           Facebook
         </Button>
       </div>

@@ -26,7 +26,7 @@ import Footer from "@/components/LandingPage/Footer";
 
 export default function HowItWorks() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen dark:bg-black dark:text-foreground">
       <Navbar />
       <main className="flex-1 container mx-auto px-4 md:px-0 lg:px-0 xl:px-0">
         {/* Hero Section */}
@@ -77,11 +77,11 @@ export default function HowItWorks() {
                   color: "text-orange-500",
                 },
               ].map((step, index) => (
-                <Card key={index} className='bg-black text-white'>
+                <Card key={index}  >
                   <CardHeader>
                     <div className="flex items-center space-x-4">
                       <div
-                        className={`p-2 bg-white border rounded-lg ${step.color}`}
+                        className={`p-2 border rounded-lg ${step.color}`}
                       >
                         <step.icon className="h-6 w-6 " />
                       </div>
@@ -139,7 +139,7 @@ export default function HowItWorks() {
                     },
                   ].map((feature, index) => (
                     <div key={index} className="flex items-start space-x-4">
-                      <div className="p-2 bg-background border rounded-lg">
+                      <div className="p-2  border rounded-lg">
                         <feature.icon className="h-5 w-5 text-primary" />
                       </div>
                       <div>
@@ -177,7 +177,7 @@ export default function HowItWorks() {
               </p>
             </div>
             <div className="grid gap-8 md:grid-cols-3">
-              <Card className='bg-black text-white'>
+              <Card>
                 <CardHeader>
                   <CardTitle>Model Architecture</CardTitle>
                   <CardDescription>
@@ -193,7 +193,7 @@ export default function HowItWorks() {
                   </ul>
                 </CardContent>
               </Card>
-              <Card className='bg-black text-white'>
+              <Card  >
                 <CardHeader>
                   <CardTitle>Training Data</CardTitle>
                   <CardDescription>
@@ -209,7 +209,7 @@ export default function HowItWorks() {
                   </ul>
                 </CardContent>
               </Card>
-              <Card className='bg-black text-white'>
+              <Card  >
                 <CardHeader>
                   <CardTitle>Validation</CardTitle>
                   <CardDescription>Rigorous testing protocols</CardDescription>
@@ -256,7 +256,7 @@ export default function HowItWorks() {
                   icon: FileText,
                 },
               ].map((step, index) => (
-                <Card key={index} className='bg-black text-white'>
+                <Card key={index}  >
                   <CardHeader>
                     <div className="flex items-center space-x-4">
                       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -291,7 +291,7 @@ export default function HowItWorks() {
                 for early detection
               </p>
               <div className="flex justify-center">
-                <Button size="lg" variant='outline' className='bg-black text-white'>
+                <Button size="lg" variant='outline'  >
                   Try Brainova
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

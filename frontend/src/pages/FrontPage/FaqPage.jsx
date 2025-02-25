@@ -30,7 +30,7 @@ import Footer from "@/components/LandingPage/Footer";
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen dark:bg-black dark:text-foreground">
       <Navbar />
       <main className="container py-10 mx-auto">
         <div className="text-center space-y-4 mb-10">
@@ -71,7 +71,7 @@ export default function FaqPage() {
           ].map((item, index) => (
             <Card
               key={index}
-              className="transition-all hover:border-primary bg-black text-white"
+              className="transition-all hover:border-primary"
             >
               <Link to={item.href}>
                 <CardHeader>
@@ -89,15 +89,15 @@ export default function FaqPage() {
         </div>
 
         {/* Main Content */}
-        <Tabs defaultValue="general" className="space-y-8 bg-black text-white">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-black text-white border border-white">
+        <Tabs defaultValue="general" className="space-y-8   ">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 ">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="technical">Technical</TabsTrigger>
           </TabsList>
 
           {/* General FAQs */}
           <TabsContent value="general" id="getting-started">
-            <Card className="bg-black text-white">
+            <Card className="  ">
               <CardHeader>
                 <CardTitle className="text-2xl">General Questions</CardTitle>
                 <CardDescription>
@@ -176,7 +176,7 @@ export default function FaqPage() {
 
           {/* Technical FAQs */}
           <TabsContent value="technical">
-            <Card className="bg-black text-white">
+            <Card className="  ">
               <CardHeader>
                 <CardTitle className="text-2xl">
                   Technical Information

@@ -10,6 +10,16 @@ export default function AccountSettings() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const toggleDarkMode = () => {
+    const html = document.documentElement;
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -30,15 +40,10 @@ export default function AccountSettings() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <Button type="submit" disabled={isLoading} variant='outline' className='bg-black text-white'>
+              <Button type="submit" disabled={isLoading} className=" ">
                 Update Email
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isLoading}
-                className="bg-white text-black hover:bg-slate-300"
-              >
+              <Button type="button" disabled={isLoading} className=" ">
                 Resend Verification
               </Button>
             </div>
@@ -123,12 +128,34 @@ export default function AccountSettings() {
             Add an extra layer of security to your account
           </p>
           <div className="mt-4">
-            <Button
-              variant="outline"
-              className="bg-white text-black hover:bg-slate-300"
-            >
-              Enable 2FA
-            </Button>
+            <Button className=" ">Enable 2FA</Button>
+          </div>
+        </div>
+
+        <Separator />
+
+        <div>
+          <h3 className="text-lg font-medium">Change Theme</h3>
+          <div className="mt-4">
+            <div>
+              <Button
+                onClick={toggleDarkMode}
+                variant="outline"
+              >
+                <span className="sr-only">Toggle Dark Mode</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </Button>
+            </div>
           </div>
         </div>
 

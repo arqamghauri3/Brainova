@@ -31,7 +31,7 @@ function MainPage() {
         <h2 className="text-3xl font-bold tracking-tight">
           Welcome back, John
         </h2>
-        <Alert className="bg-black  text-white">
+        <Alert className=" ">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Getting Started</AlertTitle>
           <AlertDescription>
@@ -43,7 +43,7 @@ function MainPage() {
 
       {/* Quick Actions */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="md:col-span-2 bg-black text-white">
+        <Card className="md:col-span-2  ">
           {" "}
           {/* Apply col-span-2 only for md+ */}
           <CardHeader>
@@ -62,7 +62,7 @@ function MainPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-black text-white">
+        <Card className=" ">
           <CardHeader>
             <CardTitle>Need Help?</CardTitle>
             <CardDescription>Contact our support team</CardDescription>
@@ -70,7 +70,7 @@ function MainPage() {
           <CardContent>
             <Button
               variant="outline"
-              className="w-full bg-black text-white"
+              className="w-full  "
               asChild
             >
               <Link to="/dashboard/support">
@@ -81,7 +81,7 @@ function MainPage() {
           </CardContent>
         </Card>
 
-        <Card className="bg-black text-white">
+        <Card className=" ">
           <CardHeader>
             <CardTitle>Track Progress</CardTitle>
             <CardDescription>View your diagnosis history</CardDescription>
@@ -89,7 +89,7 @@ function MainPage() {
           <CardContent>
             <Button
               variant="outline"
-              className="w-full bg-black text-white"
+              className="w-full  "
               asChild
             >
               <Link to="/dashboard/history">
@@ -103,7 +103,7 @@ function MainPage() {
 
       {/* Latest Report */}
       <div className="grid gap-4  md:grid-cols-12">
-        <Card className="col-span-12 bg-black text-white">
+        <Card className="col-span-12  ">
           <CardHeader>
             <CardTitle>Latest Analysis Report</CardTitle>
             <CardDescription>
@@ -131,7 +131,7 @@ function MainPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="bg-black text-white"
+                  className=" "
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Download Full Report
@@ -151,7 +151,7 @@ function MainPage() {
       </div>
 
       {/* Recent Activity */}
-      <Card className="bg-black text-white">
+      <Card className=" ">
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>
           <CardDescription>

@@ -44,7 +44,7 @@ const FeaturesSection = () => {
                   icon: ChartBar,
                 },
               ].map((item, index) => (
-                <div key={index} className="relative p-6 bg-background rounded-lg border">
+                <div key={index} className="relative p-6  rounded-lg border">
                   <div className="absolute -top-4 left-4 bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold">
                     {item.step}
                   </div>

@@ -5,7 +5,7 @@ import React from "react";
 
 function ContactUs() {
   return (
-    <div className="min-h-screen bg-background dark">
+    <div className="min-h-screen dark:bg-black dark:text-foreground">
       <Navbar />
       <ContactPageComponents />
       <Footer />

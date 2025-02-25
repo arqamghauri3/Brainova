@@ -39,7 +39,7 @@ export default function UploadForm() {
               disabled={isLoading}
               className="cursor-pointer "
             />
-            <Button type="submit" disabled={isLoading} variant='outline' className='bg-black text-white'>
+            <Button type="submit" disabled={isLoading} variant='outline' className=' '>
               <Upload className="mr-2 h-4 w-4" />
               Upload
             </Button>
