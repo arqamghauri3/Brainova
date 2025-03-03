@@ -7,9 +7,7 @@ import MainPage from "./MainPage";
 
 function Dashboard() {
   return (
-      <DashboardLayout>
         <MainPage />
-      </DashboardLayout>
   );
 }
 

@@ -11,11 +11,15 @@ import {
   LogOut,
   LayoutDashboard,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/slices/AuthSlice";
 
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(DashboardContext);
   const sidebarRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const toggleDarkMode = () => {
     const html = document.documentElement;
     if (html.classList.contains("dark")) {
@@ -26,7 +30,7 @@ function Sidebar() {
       localStorage.setItem("theme", "dark");
     }
   };
-  
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -83,6 +87,10 @@ function Sidebar() {
           <Link
             to="/login"
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-white hover:text-black"
+            onClick={() => {
+              dispatch(logout());
+              navigate("/login");
+            }}
           >
             <LogOut className="w-5 h-5" />
             <span className="text-sm font-medium">Log out</span>

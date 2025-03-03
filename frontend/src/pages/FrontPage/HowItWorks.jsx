@@ -26,8 +26,8 @@ import Footer from "@/components/LandingPage/Footer";
 
 export default function HowItWorks() {
   return (
-    <div className="min-h-screen dark:bg-black dark:text-foreground">
-      <Navbar />
+    <>
+      
       <main className="flex-1 container mx-auto px-4 md:px-0 lg:px-0 xl:px-0">
         {/* Hero Section */}
         <section className="relative">
@@ -301,6 +301,6 @@ export default function HowItWorks() {
         </section>
       </main>
       <Footer />
-    </div>
+    </>
   );
 }

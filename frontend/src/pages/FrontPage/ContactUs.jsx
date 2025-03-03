@@ -2,14 +2,14 @@ import ContactPageComponents from "@/components/LandingPage/ContactPageComponent
 import Footer from "@/components/LandingPage/Footer";
 import Navbar from "@/components/LandingPage/Navbar";
 import React from "react";
+import { useSelector } from "react-redux";
 
 function ContactUs() {
   return (
-    <div className="min-h-screen dark:bg-black dark:text-foreground">
-      <Navbar />
+    <>
       <ContactPageComponents />
       <Footer />
-    </div>
+    </>
   );
 }
 

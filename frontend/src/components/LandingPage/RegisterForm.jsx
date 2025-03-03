@@ -5,10 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import api from "@/api/api";
+import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/token";
+import { useDispatch } from "react-redux";
+import { registerUser } from "@/store/slices/AuthSlice";
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -16,13 +23,23 @@ function RegisterForm() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    console.log("Login Data:", data);
     console.log("Login Data:", data);
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const { email, first_name, last_name, password  } = data;
+    console.log("password:", password);
+    const password1 = password;
+    const password2 = password
+    try {
+      const result = await dispatch(registerUser({ email, first_name, last_name, password1, password2 }));
+      console.log("Reg Result:", result);
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -30,12 +47,12 @@ function RegisterForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="first_name">First Name</Label>
             <Input
-              id="firstName"
+              id="first_name"
               placeholder="Arqam"
               type="text"
-              {...register("firstName", {
+              {...register("first_name", {
                 required: "First Name is required",
                 pattern: {
                   value: /^[A-Za-z]+/,
@@ -45,18 +62,18 @@ function RegisterForm() {
               autoCapitalize="none"
               autoCorrect="off"
             />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+            {errors.first_name && (
+              <p className="text-red-500 text-sm">{errors.first_name.message}</p>
             )}
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="firstName">Last Name</Label>
+            <Label htmlFor="last_name">Last Name</Label>
             <Input
-              id="lastName"
+              id="last_name"
               placeholder="Ghauri"
               type="text"
-              {...register("lastName", {
+              {...register("last_name", {
                 required: "Last Name is required",
                 pattern: {
                   value: /^[A-Za-z]+/,
@@ -66,8 +83,8 @@ function RegisterForm() {
               autoCapitalize="none"
               autoCorrect="off"
             />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+            {errors.last_name && (
+              <p className="text-red-500 text-sm">{errors.last_name.message}</p>
             )}
           </div>
 
@@ -131,11 +148,7 @@ function RegisterForm() {
             )}
           </div>
 
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="   "
-          >
+          <Button type="submit" disabled={isLoading} className="   ">
             {isLoading ? "Creating Account..." : "Create Account"}
           </Button>
         </div>
@@ -151,16 +164,16 @@ function RegisterForm() {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-1">
-        <Button className='' disabled={isLoading}>
+        <Button className="" disabled={isLoading}>
           Google
         </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button className="   " disabled={isLoading}>
           Microsoft
         </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button className="   " disabled={isLoading}>
           Apple
         </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button className="   " disabled={isLoading}>
           Facebook
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import { DashboardProvider } from "../../contexts/DashboardContext";
 import {
@@ -22,14 +22,17 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, refreshToken, verify } from "@/store/slices/AuthSlice";
 
 function MainPage() {
+  const  user  = useSelector((state) => state.auth.user);
   return (
     <div className="space-y-6 p-4 md:p-8 pt-6">
       {/* Welcome Section */}
       <div className="space-y-4">
         <h2 className="text-3xl font-bold tracking-tight">
-          Welcome back, John
+          Welcome back, {user.first_name} {user.last_name}
         </h2>
         <Alert className=" ">
           <AlertCircle className="h-4 w-4" />

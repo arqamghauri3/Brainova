@@ -2,8 +2,10 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Brain } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const toggleDarkMode = () => {
     const html = document.documentElement;
     if (html.classList.contains("dark")) {
@@ -23,7 +25,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/10 ">
+    <header className="sticky top-0 z-50 w-full  dark:bg-background/95 backdrop-blur dark:supports-[backdrop-filter]:bg-background/25 bg-white/95 supports-[backdrop-filter]:bg-white/25">
       <div className="container mx-auto flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <Brain className="h-6 w-6 text-primary" />
@@ -41,12 +43,22 @@ const Navbar = () => {
             );
           })}
           <div className="flex gap-1">
-            <Button>
-              <Link to="/register">Sign Up</Link>
-            </Button>
-            <Button>
-              <Link to="/login">Sign In</Link>
-            </Button>
+            {isAuthenticated ? (
+              <>
+              <Button>
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button>
+                  <Link to="/register">Sign Up</Link>
+                </Button>
+                <Button>
+                  <Link to="/login">Sign In</Link>
+                </Button>
+              </>
+            )}
           </div>
           <div>
             <Button

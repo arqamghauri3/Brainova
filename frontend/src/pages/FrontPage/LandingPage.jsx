@@ -8,14 +8,13 @@ import Footer from "../../components/LandingPage/Footer";
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen dark:bg-black dark:text-foreground px-4">
-      <Navbar />
+    <>
       <HeroSection />
       <FeaturesSection />
       <AboutSection />
       <TeamSection />
       <Footer />
-    </div>
+    </>
   );
 };
 

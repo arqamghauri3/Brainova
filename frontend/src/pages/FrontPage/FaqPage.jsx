@@ -30,8 +30,7 @@ import Footer from "@/components/LandingPage/Footer";
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen dark:bg-black dark:text-foreground">
-      <Navbar />
+    <>
       <main className="container py-10 mx-auto">
         <div className="text-center space-y-4 mb-10">
           <h1 className="text-4xl font-bold tracking-tight">
@@ -69,10 +68,7 @@ export default function FaqPage() {
               href: "/contact",
             },
           ].map((item, index) => (
-            <Card
-              key={index}
-              className="transition-all hover:border-primary"
-            >
+            <Card key={index} className="transition-all hover:border-primary">
               <Link to={item.href}>
                 <CardHeader>
                   <div className="flex items-center space-x-3">
@@ -346,6 +342,6 @@ export default function FaqPage() {
 
       {/* Footer */}
       <Footer />
-    </div>
+    </>
   );
 }

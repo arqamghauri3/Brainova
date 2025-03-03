@@ -5,24 +5,54 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "@/store/slices/AuthSlice";
 function LoginForm() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const access = useSelector((state) => state.auth.access);
+  const user = useSelector((state) => state.auth.user);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Login Data:", data);
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const { email, password } = data; 
+
+    try {
+      const result = dispatch(login({ email, password })); 
+
+      console.log("Login Result:", result);
+
+      if (login.fulfilled.match(result)) {
+        console.log("Access Token:", result.payload.access);
+        console.log("User:", result.payload.user);
+        console.log("Is Authenticated:", isAuthenticated);
+        navigate("/dashboard"); 
+      } else {
+        
+
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+
+    setIsLoading(false);
+  };
+
+  const reachGoogle = () => {
+    const clientID = "118733874131-c6aka85g7mobfkhnk48c9a02jifd5jbl.apps.googleusercontent.com"
+    const callBackURI = "http://localhost:5173/";
+    window.location.replace(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${callBackURI}&prompt=consent&response_type=code&client_id=${clientID}&scope=openid%20email%20profile&access_type=offline`)
   };
 
   return (
@@ -84,11 +114,7 @@ function LoginForm() {
             )}
           </div>
 
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="   "
-          >
+          <Button type="submit" disabled={isLoading} className="   ">
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
         </div>
@@ -104,16 +130,14 @@ function LoginForm() {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-1">
-        <Button className='   ' disabled={isLoading}>
-          Google
-        </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button onClick={reachGoogle}>Google</Button>
+        <Button className="   " disabled={isLoading}>
           Microsoft
         </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button className="   " disabled={isLoading}>
           Apple
         </Button>
-        <Button className='   ' disabled={isLoading}>
+        <Button className="   " disabled={isLoading}>
           Facebook
         </Button>
       </div>

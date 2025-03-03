@@ -5,8 +5,11 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import DashboardLayout from "./DashboardLayout";
+import { useSelector } from "react-redux";
 
 export default function AccountSettings() {
+  const  user  = useSelector((state) => state.auth.user);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +25,6 @@ export default function AccountSettings() {
   };
 
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h3 className="text-lg font-medium">Email Address</h3>
@@ -35,7 +37,7 @@ export default function AccountSettings() {
               <Input
                 id="email"
                 type="email"
-                value="john.doe@example.com"
+                value={user.email}
                 disabled={isLoading}
               />
             </div>
@@ -171,6 +173,5 @@ export default function AccountSettings() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   );
 }

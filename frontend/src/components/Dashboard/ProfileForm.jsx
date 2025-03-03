@@ -6,9 +6,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
+const createPatient = async ({ user, age, gender, accessToken }) => {
+  const response = await axios.post(
+    "http://127.0.0.1:8000/api/patients/create/",
+    { user, age, gender },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  return response.data;
+};
 export default function ProfileForm() {
+  const accessToken = useSelector((state) => state.auth.access);
   const [isLoading, setIsLoading] = useState(false);
+  const { pk, first_name, last_name, email, is_staff } = useSelector(
+    (state) => state.auth.user
+  );
+  const { mutate, isError } = useMutation({ mutationFn: createPatient });
 
   const {
     register,
@@ -17,116 +39,142 @@ export default function ProfileForm() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Login Data:", data);
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    console.log("Form Data:", pk);
+    const user = pk;
+    const { gender, age } = data;
+    mutate({ user, age, gender, accessToken });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="space-y-2">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src="/placeholder.svg" alt="Profile picture" />
-            <AvatarFallback>
-              <User className="h-12 w-12" />
-            </AvatarFallback>
-          </Avatar>
+    <>
+      {isError && <div className="text-red-500">{isError.message}</div>}
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+        <div className="space-y-2">
+          <div className="flex items-center gap-4">
+            <Avatar className="h-24 w-24">
+              <AvatarImage src="/placeholder.svg" alt="Profile picture" />
+              <AvatarFallback>
+                <User className="h-12 w-12" />
+              </AvatarFallback>
+            </Avatar>
+          </div>
+          <input type="file" className="hidden" id="profile-pic" />
+          <Label htmlFor="profile-pic">
+            <Button as="label" className="bg-black text-white cursor-pointer">
+              Change Profile Picture
+            </Button>
+          </Label>
         </div>
-        <Button type="button" variant="outline" className='bg-black text-white' disabled={isLoading}>
-          Change Profile Picture
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="firstName">First Name</Label>
+            <Input
+              {...register("firstName", {
+                required: "First Name is required",
+                pattern: {
+                  value: /^[A-Za-z]+$/,
+                  message: "Enter a valid Name",
+                },
+              })}
+              id="firstName"
+              placeholder="John"
+              defaultValue={first_name}
+              disabled={isLoading}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="lastName">Last Name</Label>
+            <Input
+              {...register("lastName", {
+                required: "Last Name is required",
+                pattern: {
+                  value: /^[A-Za-z]+$/,
+                  message: "Enter a valid Name",
+                },
+              })}
+              id="lastName"
+              placeholder="Doe"
+              defaultValue={last_name}
+              disabled={isLoading}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Enter a valid Email",
+                },
+              })}
+              id="email"
+              type="email"
+              placeholder="john@example.com"
+              defaultValue={email}
+              disabled={isLoading}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="gender">Gender</Label>
+            <Input
+              {...register("gender", { required: "Gender is required" })}
+              id="gender"
+              type="text"
+              placeholder="Male or Female"
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="age">Age</Label>
+            <Input
+              {...register("age", { required: "Age is required" })}
+              id="age"
+              type="number"
+              placeholder="25"
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="medicalHistory">Medical History</Label>
+          <Textarea
+            {...register("medicalHistory", {
+              required: "Medical History is required",
+            })}
+            id="medicalHistory"
+            placeholder="Enter any relevant medical history..."
+            className="min-h-[100px]"
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="medications">Current Medications</Label>
+          <Textarea
+            {...register("medications", {
+              required: "Medications are required",
+            })}
+            id="medications"
+            placeholder="List your current medications..."
+            className="min-h-[100px]"
+            disabled={isLoading}
+          />
+        </div>
+
+        <Button
+          type="submit"
+          variant="outline"
+          disabled={isLoading}
+          className="bg-black text-white"
+        >
+          {isLoading ? "Saving..." : "Save Changes"}
         </Button>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First name</Label>
-          <Input
-            {...register("firstName", {
-              required: "First Name is required",
-              pattern: {
-                value: /^[A-Za-z]+/,
-                message: "Enter a valid Name",
-              },
-            })}
-            id="firstName"
-            placeholder="John"
-            disabled={isLoading}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last name</Label>
-          <Input
-            {...register("lastName", {
-              required: "Last Name is required",
-              pattern: {
-                value: /^[A-Za-z]+/,
-                message: "Enter a valid Name",
-              },
-            })}
-            id="lastName"
-            placeholder="Doe"
-            disabled={isLoading}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Enter a valid Email",
-              },
-            })}
-            id="email"
-            type="email"
-            placeholder="john@example.com"
-            disabled={isLoading}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone number</Label>
-          <Input
-            {...register("phone", {
-              required: "Phone is required",
-            })}
-            id="phone"
-            type="tel"
-            placeholder="+1 (555) 000-0000"
-            disabled={isLoading}
-          />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="medicalHistory">Medical History</Label>
-        <Textarea
-          {...register("medicalHistory", {
-            required: "Medical History is required",
-          })}
-          id="medicalHistory"
-          placeholder="Enter any relevant medical history..."
-          className="min-h-[100px]"
-          disabled={isLoading}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="medications">Current Medications</Label>
-        <Textarea
-          {...register("medications", {
-            required: "Medications is required",
-          })}
-          id="medications"
-          placeholder="List your current medications..."
-          className="min-h-[100px]"
-          disabled={isLoading}
-        />
-      </div>
-      <Button type="submit" variant='outline' disabled={isLoading} className='bg-black text-white'>
-        {isLoading ? "Saving..." : "Save Changes"}
-      </Button>
-    </form>
+      </form>
+    </>
   );
 }
