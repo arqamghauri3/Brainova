@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .serializers import *
 from .models import *
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import *
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
@@ -10,6 +10,7 @@ from time import time  # Ensure 'time' is also imported
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from time import sleep
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 class GoogleOAuth2IatValidationAdapter(GoogleOAuth2Adapter):
     def complete_login(self, request, app, token, response, **kwargs):
@@ -55,3 +56,19 @@ class PatientListAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    
+class ProfileRetrieveAPIView(RetrieveAPIView):
+    serializer_class = ProfileSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        user_id = self.kwargs.get('user_id')
+        user = get_object_or_404(CustomUser, id=user_id)
+
+        patient = get_object_or_404(Patient, user=user)  
+
+        data = {
+            'user': CustomUserSerializer(user).data,
+            'patient': PatientSerializer(patient).data
+        }
+        
+        return Response(data)

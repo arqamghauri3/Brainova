@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,29 +8,21 @@ import { User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-const createPatient = async ({ user, age, gender, accessToken }) => {
-  const response = await axios.post(
-    "http://127.0.0.1:8000/api/patients/create/",
-    { user, age, gender },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
-  return response.data;
-};
+import { createPatient } from "@/api/mutations";
+import { viewPatient } from "@/api/queries";
 export default function ProfileForm() {
   const accessToken = useSelector((state) => state.auth.access);
-  const [isLoading, setIsLoading] = useState(false);
-  const { pk, first_name, last_name, email, is_staff } = useSelector(
+  const { pk, first_name, last_name, email } = useSelector(
     (state) => state.auth.user
   );
+  const user = pk;
   const { mutate, isError } = useMutation({ mutationFn: createPatient });
+  const { data, isLoading } = useQuery({
+    queryKey: ["patient", user],
+    queryFn: () => viewPatient({ user }),
+  });
 
   const {
     register,
@@ -40,7 +32,7 @@ export default function ProfileForm() {
 
   const onSubmit = (data) => {
     console.log("Form Data:", pk);
-    const user = pk;
+
     const { gender, age } = data;
     mutate({ user, age, gender, accessToken });
   };
@@ -120,10 +112,11 @@ export default function ProfileForm() {
           <div className="space-y-2">
             <Label htmlFor="gender">Gender</Label>
             <Input
-              {...register("gender", { required: "Gender is required" })}
+              {...register("gender", { required: "Gender is required" } )}
               id="gender"
               type="text"
               placeholder="Male or Female"
+              defaultValue={data?.patient?.gender || ""}
               disabled={isLoading}
             />
           </div>
@@ -135,6 +128,7 @@ export default function ProfileForm() {
               id="age"
               type="number"
               placeholder="25"
+              defaultValue={data?.patient?.age || ""}
               disabled={isLoading}
             />
           </div>

@@ -8,6 +8,7 @@ urlpatterns = [
     # path('test/', TestAuthenticateView.as_view(), name="test"),
     path('patients/create/', PatientCreateAPIView.as_view(), name="patient-create"),
     path('patients/', PatientListAPIView.as_view(), name="patient-list"),
+    path('profile/<int:user_id>/', ProfileRetrieveAPIView.as_view(), name="profile-list"),
     
     
 ]
