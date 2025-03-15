@@ -14,7 +14,7 @@ import { createPatient } from "@/api/mutations";
 import { viewPatient } from "@/api/queries";
 export default function ProfileForm() {
   const accessToken = useSelector((state) => state.auth.access);
-  const { pk, first_name, last_name, email } = useSelector(
+  const { pk, email } = useSelector(
     (state) => state.auth.user
   );
   const user = pk;
@@ -31,10 +31,27 @@ export default function ProfileForm() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Form Data:", pk);
+    console.log("Form Data:", data);
 
-    const { gender, age } = data;
-    mutate({ user, age, gender, accessToken });
+    const {
+      first_name,
+      last_name,
+      gender,
+      age,
+      medical_history,
+      current_medications,
+    } = data;
+
+    mutate({
+      user,
+      first_name,
+      last_name,
+      age,
+      medical_history,
+      current_medications,
+      gender,
+      accessToken,
+    });
   };
 
   return (
@@ -61,9 +78,9 @@ export default function ProfileForm() {
 
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="first_name">First Name</Label>
             <Input
-              {...register("firstName", {
+              {...register("first_name", {
                 required: "First Name is required",
                 pattern: {
                   value: /^[A-Za-z]+$/,
@@ -72,23 +89,24 @@ export default function ProfileForm() {
               })}
               id="firstName"
               placeholder="John"
-              defaultValue={first_name}
+              defaultValue={data?.user?.first_name || ""}
               disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="last_name">Last Name</Label>
             <Input
-              {...register("lastName", {
+              {...register("last_name", {
                 required: "Last Name is required",
                 pattern: {
                   value: /^[A-Za-z]+$/,
                   message: "Enter a valid Name",
                 },
               })}
-              id="lastName"
+              id="last_name"
               placeholder="Doe"
-              defaultValue={last_name}
+              defaultValue={data?.user?.last_name || ""}
+
               disabled={isLoading}
             />
           </div>
@@ -112,7 +130,7 @@ export default function ProfileForm() {
           <div className="space-y-2">
             <Label htmlFor="gender">Gender</Label>
             <Input
-              {...register("gender", { required: "Gender is required" } )}
+              {...register("gender", { required: "Gender is required" })}
               id="gender"
               type="text"
               placeholder="Male or Female"
@@ -135,27 +153,29 @@ export default function ProfileForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="medicalHistory">Medical History</Label>
+          <Label htmlFor="medical_history">Medical History</Label>
           <Textarea
-            {...register("medicalHistory", {
+            {...register("medical_history", {
               required: "Medical History is required",
             })}
-            id="medicalHistory"
+            id="medical_history"
             placeholder="Enter any relevant medical history..."
             className="min-h-[100px]"
+            defaultValue={data?.patient?.medical_history || ""}
             disabled={isLoading}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="medications">Current Medications</Label>
+          <Label htmlFor="current_medications">Current Medications</Label>
           <Textarea
-            {...register("medications", {
+            {...register("current_medications", {
               required: "Medications are required",
             })}
-            id="medications"
+            id="current_medications"
             placeholder="List your current medications..."
             className="min-h-[100px]"
+            defaultValue={data?.patient?.current_medications || ""}
             disabled={isLoading}
           />
         </div>
