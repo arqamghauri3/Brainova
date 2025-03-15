@@ -11,6 +11,8 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from time import sleep
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import serializers, status
 
 class GoogleOAuth2IatValidationAdapter(GoogleOAuth2Adapter):
     def complete_login(self, request, app, token, response, **kwargs):
@@ -47,15 +49,17 @@ def reset_password_confirm(request, uid, token):
     return redirect(f"http://localhost:5173/reset/password/confirm/{uid}/{token}")
 
 class PatientCreateAPIView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
     model = Patient
     serializer_class = PatientSerializer
     
     
 class PatientListAPIView(ListAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    
+class UserListAPIView(ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
     
 class ProfileRetrieveAPIView(RetrieveAPIView):
     serializer_class = ProfileSerializer
@@ -72,3 +76,15 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
         }
         
         return Response(data)
+    
+class ProfileAPIView(APIView):
+    def put(self, request, user_id):        
+        user = CustomUser.objects.filter(id=user_id).first()
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProfileSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

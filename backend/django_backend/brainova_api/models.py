@@ -35,6 +35,8 @@ class Patient(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="patient")
     age = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")], blank=True)
+    medical_history = models.TextField(blank=True)
+    current_medications = models.TextField(blank=True)
 
     def __str__(self):
         return f"Profile of {self.user.email}"
