@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 from datetime import timedelta
-
+import os
 
 env = environ.Env(
     DEBUG = (bool, False)
@@ -202,4 +202,5 @@ EMAIL_PORT = '2525'
 DEFAULT_FROM_EMAIL = 'arqamghauri3@gmail.com'
 EMAIL_USE_TLS = True
 
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

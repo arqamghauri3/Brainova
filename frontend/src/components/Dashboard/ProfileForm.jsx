@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { createPatient } from "@/api/mutations";
-import { viewPatient } from "@/api/queries";
+import { viewProfile } from "@/api/queries";
 export default function ProfileForm() {
   const accessToken = useSelector((state) => state.auth.access);
   const { pk, email } = useSelector(
@@ -21,7 +21,7 @@ export default function ProfileForm() {
   const { mutate, isError } = useMutation({ mutationFn: createPatient });
   const { data, isLoading } = useQuery({
     queryKey: ["patient", user],
-    queryFn: () => viewPatient({ user }),
+    queryFn: () => viewProfile({ user }),
   });
 
   const {

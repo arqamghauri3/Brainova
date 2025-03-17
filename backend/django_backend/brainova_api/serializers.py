@@ -11,7 +11,7 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ["user", "age", "gender", "medical_history", "current_medications"]
+        fields = ["id", "user", "age", "gender", "medical_history", "current_medications"]
 
 class ProfileSerializer(serializers.ModelSerializer):
     age = serializers.IntegerField(required=False, allow_null=True)
@@ -40,3 +40,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         patient.save()
         
         return instance
+    
+class EEGRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EEGRecord
+        fields = ['id', 'patient', 'file', 'uploaded_at']

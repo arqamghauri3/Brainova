@@ -11,8 +11,7 @@ function DashboardLayout({ children }) {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.auth.message);
   const [message, setMessage] = useState(null);
-
-  const user = useSelector((state) => state.auth.user);
+  
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   useEffect(() => {
     dispatch(verify()).then((result) => {
@@ -22,7 +21,6 @@ function DashboardLayout({ children }) {
     });
   }, [dispatch]);
   useEffect(() => {
-    
     setMessage(alert);
   }, [alert]);
 

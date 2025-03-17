@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers, status
-
+from rest_framework.parsers import MultiPartParser, FormParser
 class GoogleOAuth2IatValidationAdapter(GoogleOAuth2Adapter):
     def complete_login(self, request, app, token, response, **kwargs):
         try:
@@ -53,9 +53,19 @@ class PatientCreateAPIView(CreateAPIView):
     serializer_class = PatientSerializer
     
     
-class PatientListAPIView(ListAPIView):
-    queryset = Patient.objects.all()
+class PatientRetrieveAPIView(RetrieveAPIView):
     serializer_class = PatientSerializer
+    def retrieve(self, request, *args, **kwargs):
+        user_id = self.kwargs.get('user_id')
+        user = get_object_or_404(CustomUser, id=user_id)
+
+        patient = get_object_or_404(Patient, user=user)  
+
+        data = {
+            'patient': PatientSerializer(patient).data
+        }
+        
+        return Response(data)
     
 class UserListAPIView(ListAPIView):
     queryset = CustomUser.objects.all()
@@ -88,3 +98,16 @@ class ProfileAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class FileUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = EEGRecordSerializer(data=request.data)
+
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
