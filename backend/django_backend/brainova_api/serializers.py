@@ -45,3 +45,8 @@ class EEGRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = EEGRecord
         fields = ['id', 'patient', 'file', 'uploaded_at']
+        
+class DiagnosisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diagnosis
+        fields = ['id', 'eeg_record', 'prediction', 'confidence', 'diagnosed_at']

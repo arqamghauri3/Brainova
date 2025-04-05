@@ -11,5 +11,7 @@ urlpatterns = [
     path('users/', UserListAPIView.as_view(), name="user-list"),
     path('profile/<int:user_id>/', ProfileRetrieveAPIView.as_view(), name="profile-list"),
     path('profile/update/<int:user_id>/', ProfileAPIView.as_view(), name='profile-update'),  
-    path('upload/', FileUploadView.as_view(), name='file-upload')  
+    path('upload/', FileUploadView.as_view(), name='file-upload'), 
+    path('classify/', DiagnosisView.as_view(), name='classify'),
+    path('diagnosis/<int:patient_id>/', DiagnosisDetailView.as_view(), name='diagnosis-detail'),
 ]

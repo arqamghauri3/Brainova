@@ -24,4 +24,17 @@ const viewPatient = async ({ user }) => {
   return response.data;
 };
 
-export { viewProfile, viewPatient };
+const getDiagnosis = async ({ patient }) => {
+  const response = await axios.get(
+    `http://127.0.0.1:8000/api/diagnosis/${patient}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data;
+};
+
+export { viewProfile, viewPatient, getDiagnosis };
+

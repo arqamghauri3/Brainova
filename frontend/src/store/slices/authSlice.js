@@ -9,6 +9,7 @@ const initialState = {
   refresh: localStorage.getItem("refresh") || null,
   isAuthenticated: localStorage.getItem("access") ? true : false,
   user: JSON.parse(localStorage.getItem("user")) || null, // Persist user data  message: "",
+  patient: JSON.parse(localStorage.getItem("patient")) || null, // Persist user data  message: "",
   status: "idle", // idle | loading | succeeded | failed
 };
 
@@ -240,6 +241,26 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   return null;
 });
 
+export const getPatient = createAsyncThunk(
+  "auth/getPatient",
+  async ({ userId }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/patients/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue("Fetching patient failed");
+    }
+  }
+);
+
+
 // ** Auth Slice **
 const authSlice = createSlice({
   name: "auth",
@@ -317,6 +338,11 @@ const authSlice = createSlice({
       .addCase(confirmResetPassword.rejected, (state, action) => {
         state.message = "Password Reset Failed";
       })
+      .addCase(getPatient.fulfilled, (state, action) => {
+        state.patient = action.payload;
+        console.log(state.patient);
+        
+      });
   },
 });
 

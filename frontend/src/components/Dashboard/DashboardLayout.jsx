@@ -4,14 +4,20 @@ import Navbar from "./Navbar";
 import { DashboardProvider } from "@/contexts/DashboardContext";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, refreshToken, verify } from "@/store/slices/AuthSlice";
+import {
+  getPatient,
+  getUser,
+  refreshToken,
+  verify,
+} from "@/store/slices/AuthSlice";
 import Alert from "../LandingPage/Alert";
 
 function DashboardLayout({ children }) {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.auth.message);
   const [message, setMessage] = useState(null);
-  
+  const user = useSelector((state) => state.auth.user);
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   useEffect(() => {
     dispatch(verify()).then((result) => {
@@ -20,6 +26,14 @@ function DashboardLayout({ children }) {
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    
+    if (user && user.pk) {
+      dispatch(getPatient({ userId: user.pk }));
+    }
+  }, [user]);
+
   useEffect(() => {
     setMessage(alert);
   }, [alert]);

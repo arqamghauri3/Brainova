@@ -2,6 +2,8 @@ import torch
 import numpy as np
 from dataclasses import dataclass
 from model import CNNGRU_Model
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+
 @dataclass
 class EEGdata:
     label: int
@@ -56,14 +58,19 @@ class EEGClassifier:
             prediction = (probs_normalized > 0.5).int().cpu().numpy()
             probabilities = probs_normalized.cpu().numpy()
 
-        # Return class and probability
+        # Convert to class labels and probabilities
         predicted_class = prediction[0][0]
         class_probabilities = {
             'class_0': float(probabilities[0][1]),  # Probability for class 0
             'class_1': float(probabilities[0][0])   # Probability for class 1
         }
-
-        return predicted_class, class_probabilities
+        if predicted_class == 0:
+            classified_class = "class_0"
+        else:
+            classified_class = "class_1"
+        
+        selected_class = class_probabilities.get(classified_class)
+        return predicted_class, class_probabilities, selected_class
 
 def prepare_dataset(dataset):
     signal_samples = []

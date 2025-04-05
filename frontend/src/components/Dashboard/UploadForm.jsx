@@ -23,11 +23,30 @@ export default function UploadForm() {
     queryFn: () => viewPatient({ user }),
     enabled: !!user, // Prevents query execution if user is undefined
   });
-
   // File upload mutation
   const mutation = useMutation({
     mutationFn: async (formData) => {
       const response = await axios.post("http://127.0.0.1:8000/api/upload/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response.data;
+    },
+    onMutate: () => setUploadStatus("Uploading..."), // Set status when upload starts
+    onSuccess: (data) => {
+      setUploadStatus("File uploaded successfully!");
+      console.log("Upload Response:", data);
+      reset(); // Reset form after success
+      queryClient.invalidateQueries(["patient", user]); // Refetch patient data
+    },
+    onError: (error) => {
+      setUploadStatus("Upload failed. Try again.");
+      console.error("Upload Error:", error);
+    },
+  });
+
+  const mutationClassify = useMutation({
+    mutationFn: async (formData) => {
+      const response = await axios.post("  http://127.0.0.1:8000/api/classify/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
@@ -53,10 +72,10 @@ export default function UploadForm() {
 
     const uploadData = new FormData();
     uploadData.append("file", formData.eegFile[0]); // EEG file
-    uploadData.append("notes", formData.notes || ""); // Notes (optional)
     uploadData.append("patient", data?.patient?.id || ""); // Patient ID
 
     mutation.mutate(uploadData); // Trigger mutation
+    mutationClassify.mutate(uploadData); 
   };
 
   return (

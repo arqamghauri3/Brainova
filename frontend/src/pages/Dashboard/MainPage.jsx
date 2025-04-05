@@ -24,9 +24,19 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, refreshToken, verify } from "@/store/slices/AuthSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getDiagnosis } from "@/api/queries";
 
 function MainPage() {
-  const  user  = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
+  const patient = useSelector((state) => state.auth.patient);
+  const { pk } = useSelector((state) => state.auth.user);
+  const id = pk;
+  const { data, isLoading } = useQuery({
+    queryKey: ["diagnosis", patient],
+    queryFn: () => getDiagnosis({ patient: patient.patient.id }),
+  });
+
   return (
     <div className="space-y-6 p-4 md:p-8 pt-6">
       {/* Welcome Section */}
@@ -71,11 +81,7 @@ function MainPage() {
             <CardDescription>Contact our support team</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button
-              variant="outline"
-              className="w-full  "
-              asChild
-            >
+            <Button variant="outline" className="w-full  " asChild>
               <Link to="/dashboard/support">
                 <HelpCircle className="mr-2 h-4 w-4" />
                 Get in Touch
@@ -90,11 +96,7 @@ function MainPage() {
             <CardDescription>View your diagnosis history</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button
-              variant="outline"
-              className="w-full  "
-              asChild
-            >
+            <Button variant="outline" className="w-full  " asChild>
               <Link to="/dashboard/history">
                 <LineChart className="mr-2 h-4 w-4" />
                 View History
@@ -118,7 +120,7 @@ function MainPage() {
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Analysis Result:</span>
                 <span className="text-sm text-green-500 font-semibold">
-                  No signs of Parkinson's detected
+                  {data?.prediction}
                 </span>
               </div>
               <div className="space-y-1">
@@ -126,16 +128,12 @@ function MainPage() {
                   <span className="text-muted-foreground">
                     Model Confidence
                   </span>
-                  <span className="font-medium">87%</span>
+                  <span className="font-medium"> {data?.confidence*100}%</span>
                 </div>
-                <Progress value={87} className="h-2 " />
+                <Progress value={data?.confidence*100} className="h-2 " />
               </div>
               <div className="flex justify-end">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className=" "
-                >
+                <Button variant="outline" size="sm" className=" ">
                   <Download className="mr-2 h-4 w-4" />
                   Download Full Report
                 </Button>

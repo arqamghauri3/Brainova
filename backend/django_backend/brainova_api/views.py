@@ -14,6 +14,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers, status
 from rest_framework.parsers import MultiPartParser, FormParser
+import requests
+
+FASTAPI_URL = "http://127.0.0.1:8001/predict"
 class GoogleOAuth2IatValidationAdapter(GoogleOAuth2Adapter):
     def complete_login(self, request, app, token, response, **kwargs):
         try:
@@ -111,3 +114,73 @@ class FileUploadView(APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.response import Response
+from rest_framework import status
+
+import requests
+
+from .models import Diagnosis, EEGRecord
+from .serializers import EEGRecordSerializer, DiagnosisSerializer
+
+FASTAPI_URL = "http://127.0.0.1:8001/predict/"  # update if needed
+
+class DiagnosisView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = EEGRecordSerializer(data=request.data)
+
+        if file_serializer.is_valid():
+            eeg_record = file_serializer.save()  # Save EEGRecord to DB
+
+            try:
+                # Send file to FastAPI (assuming file is in request.FILES)
+                file = request.FILES['file']
+                files = {'file': (file.name, file, file.content_type)}
+                response = requests.post(FASTAPI_URL, files=files)
+
+                if response.status_code == 200:
+                    data = response.json()
+                    prediction = data.get("prediction")
+                    confidence = data.get("confidence")
+
+                    # Save diagnosis
+                    diagnosis = Diagnosis.objects.create(
+                        eeg_record=eeg_record,
+                        prediction=prediction,
+                        confidence=confidence
+                    )
+
+                    diagnosis_serializer = DiagnosisSerializer(diagnosis)
+                    return Response(diagnosis_serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"error": "FastAPI failed", "detail": response.text}, status=status.HTTP_502_BAD_GATEWAY)
+
+            except Exception as e:
+                return Response({"error": "Internal error", "detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DiagnosisDetailView(APIView):
+    """
+    Returns the latest diagnosis of a patient based on patient_id
+    """
+
+    def get(self, request, patient_id, *args, **kwargs):
+        try:
+            patient = Patient.objects.get(id=patient_id)
+            latest_diagnosis = Diagnosis.objects.filter(eeg_record__patient=patient).order_by('-diagnosed_at').first()
+
+            if not latest_diagnosis:
+                return Response({"detail": "No diagnosis found for this patient."}, status=status.HTTP_404_NOT_FOUND)
+
+            serializer = DiagnosisSerializer(latest_diagnosis)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Patient.DoesNotExist:
+            return Response({"detail": "Patient not found."}, status=status.HTTP_404_NOT_FOUND)
